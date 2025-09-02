@@ -1,0 +1,60 @@
+.footer { 
+  background-color: #1B3B7D;
+  color: white;
+  padding: 20px;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; 
+  gap: 20px;
+}
+
+.first-section,
+.second-section,
+.third-section {
+  flex: 1 1 250px;
+  margin-top: 10px;
+}
+
+.first-section img {
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.footer-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e0e0e0; 
+}
+
+h4 {
+  margin-bottom: 10px;
+}
+
+i {
+  margin-right: 8px;
+  color: #dcdcdc;
+}
+
+/* 📱 Mobile & Tablet */
+@media (max-width: 992px) {
+  .main-container {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .first-section,
+  .second-section,
+  .third-section {
+    margin: 15px 0;
+  }
+
+  .first-section img {
+    margin: 0 auto 10px auto;
+    display: block;
+  }
+}
+

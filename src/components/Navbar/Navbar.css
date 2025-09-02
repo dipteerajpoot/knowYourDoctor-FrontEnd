@@ -1,0 +1,132 @@
+/* Navbar Container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1B3B7D;
+  padding: 10px 20px;
+  color: white;
+  font-family: sans-serif;
+}
+
+/* Left Section (Logo) */
+.logo {
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+/* Search Bar Centered */
+.search-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 30px;
+  padding: 2px 8px;
+  gap: 10px;
+  width: 300px; 
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  border-radius: 20px;
+  width: 100%;
+  font-size: 15px;
+}
+
+.search-box i {
+  color: #1B3B7D;
+  font-size: 15px;
+  transition: transform 0.3s ease;
+}
+
+.search-box:hover i {
+  transform: scale(1.1);
+}
+
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+  
+.nav-actions a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.nav-actions a:hover {
+  color: #00c853;
+  transform: scale(1.05);
+}
+
+
+.profile {
+  font-size: 20px;
+  color: white;
+}
+
+
+
+/* Profile Dropdown */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.profile {
+  font-size: 22px;  
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  border-color: black;
+}
+
+.profile:hover {
+  transform: scale(2.1);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 30px;
+  /* left:50%; */
+  transform: translateX(-80%); /* center under the icon */
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  z-index: 100;
+}
+
+.dropdown-menu a {
+  padding: 10px;
+  text-decoration: none;
+  color: #1B3B7D;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+  background: #f1f1f1;
+}
