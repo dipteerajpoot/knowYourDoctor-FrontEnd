@@ -24,7 +24,7 @@ function Signup() {
         switch (field) {
             case "name":
                 if (!value.trim()) return "Name is required";
-                if(!/^[A-Za-z _-]+$/.test(value)) return "name only contain Alphabet, space,hyphen and underscore"
+                if (!/^[A-Za-z _-]+$/.test(value)) return "name only contain Alphabet, space,hyphen and underscore"
 
                 break;
             case "email":
@@ -80,12 +80,12 @@ function Signup() {
             }
             setIsLoading(true);
             if (state.role === 'doctor') {
-               let response = await axios.post(EndPoint.doc_signUp, state); 
+                let response = await axios.post(EndPoint.doc_signUp, state);
                 toast.success(response.data.message || "SignUp successful , please cheque your Email for validate your Account");
             }
             else if (state.role === 'patient') {
-               let response = await axios.post(EndPoint.pat_signUp, state)
-                 toast.success(response.data.message|| "SignUp successful,please cheque your Email for validates your Account");
+                let response = await axios.post(EndPoint.pat_signUp, state)
+                toast.success(response.data.message || "SignUp successful,please cheque your Email for validates your Account");
             }
             else {
                 toast.error("Please select a valid role");
@@ -102,7 +102,7 @@ function Signup() {
                 }
             )
             setTimeout(() => {
-                navigate("/signin"); 
+                navigate("/signin");
             }, 2000);
         }
         catch (error) {
@@ -116,43 +116,42 @@ function Signup() {
     return <>
         <ToastContainer />
         <div className="container">
-                <div className="back-arrow  ">
-                    <Link to='/'><i className="bi bi-arrow-left"></i></Link>
-                </div>
+            <div className="back-arrow  ">
+                <Link to='/'><i className="bi bi-arrow-left"></i></Link>
+            </div>
             <div className="Img-container ">
-
                 <div className="Img">
                     <div className="signup-text">
-                        <h2>Welcome to Know your Doctor</h2>
+                        <h2>Welcome to <span style={{color:"#4da3ff"}}>Know Your Doctor</span></h2>
                         <p>Create your account and take the first step<br />towards better healthcare connection.</p>
                     </div>
-                </div>  
+                </div>
             </div>
 
             <div className="SignUpContiner ">
-                <h2 className="signup-title"><b>SignUp</b>  </h2>
+                <h2 className="signup-title"><b>Create Account</b>  </h2>
                 <form onSubmit={handleSubmit} className="signup-form ">
                     {isLoading ? <div className="spinner-border spinner-position"></div> : ""}
-                    <label>Name :</label>
+                    <label>Name </label>
                     <input value={state.name} onChange={handleChange} name="name" type="text" placeholder="name" />
-                        {errors.name && <p className="error" >{errors.name}</p>}
+                    {errors.name && <p className="error" >{errors.name}</p>}
 
-                    <label>Email :</label>
-                    <input value={state.email} onChange={handleChange} type="email" name="email" placeholder="@gmail.com.." />
+                    <label>Email </label>
+                    <input value={state.email} onChange={handleChange} type="email" name="email" placeholder="example@gmail.com.." />
                     {errors.email && <p className="error">{errors.email}</p>}
 
-                    <label>Password :</label>
+                    <label>Password </label>
                     <input value={state.password} onChange={handleChange} type="password" name="password" placeholder="*******" />
                     {errors.password && <p className="error">{errors.password}</p>}
 
 
-                    <label >Confirm Password :</label>
+                    <label >Confirm Password </label>
                     <input value={state.confirmpassword} onChange={handleChange} type="password" name="confirmpassword" placeholder="*******" />
                     {errors.confirmpassword && <p className="error">{errors.confirmpassword}</p>}
 
 
-                    <label>Role :</label>
-                    <select name="role" value={state.role} onChange={handleChange}>
+                    <label>Role </label>
+                    <select name="role" value={state.role} onChange={handleChange} style={{border:"#beb8b8 1px solid"}}>
                         <option value="">Select role</option>
                         <option value="doctor">Doctor</option>
                         <option value="patient">Patient</option>
@@ -164,8 +163,8 @@ function Signup() {
                         <label >Accept all <span>terms and condition</span></label>
                     </div>
 
-                    <button type="submit" className="signup-button" disabled={isLoading}>Continue</button>
-                    <Link className="hv-ac" to="/signin"><span>All-ready have Account ? </span></Link>
+                    <button type="submit" className="signup-button mb-2" disabled={isLoading}>Continue</button>
+                  <div className="text-center"> <p className="">Already have account ?  <Link className="hv-ac" to="/signin"><span>SignIn </span></Link></p></div>
                 </form>
             </div>
         </div>
