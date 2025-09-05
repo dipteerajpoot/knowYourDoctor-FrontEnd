@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import "./ViewDocProfile.css";
 import axios from "axios";
 import EndPoint from "../../apis/EndPoint";
@@ -7,10 +7,8 @@ import Navbar from "../Navbar/Navbar";
 
 function ViewDocProfile() {
   const [doctor, setDoctor] = useState({});
-  const [showModal, setShowModal] = useState(false);
   const location = useLocation();
   const { doctorId } = location.state || {};
-
   const loadDoctors = async () => {
     try {
       let response = await axios.get(`${EndPoint.doc_profile}/${doctorId}`, { withCredentials: true });
@@ -23,50 +21,19 @@ function ViewDocProfile() {
   useEffect(() => {
     loadDoctors();
   }, []);
-
-  // Handle profile image update
-  const handleProfileUpdate = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("imageName", file);
-
-    try {
-      const response = await axios.patch(`${EndPoint.doc_profileUpdate}`, formData, {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setDoctor(response.data.doctor); // update local state
-      setShowModal(false);
-    } catch (error) {
-      console.log("Error updating profile image:", error);
-    }
-  };
-
-  // Handle delete profile image
-  const handleProfileDelete = async () => {
-    try {
-      await axios.delete(`${EndPoint.doc_profileUpdate}`, { withCredentials: true });
-      setDoctor({ ...doctor, profile: { ...doctor.profile, imageName: "/assets/default.png" } }); 
-      setShowModal(false);
-    } catch (error) {
-      console.log("Error deleting profile image:", error);
-    }
-  };
-
   return (
     <>
       <Navbar />
       <div className="profile-container">
         <div className="left- mt-4">
-          <div className="profile-pic" onClick={() => setShowModal(true)}>
+          <div className="profile-pic">
             <img src={doctor?.profile?.imageName || "/assets/default.png"} alt="DoctorImage" />
           </div>
 
           <div className="Content-box">
-            <h4 className="fw-bold">{doctor.name}</h4>
+            <h4 className="fw-bold"><strong>{doctor.name}</strong></h4>
             <h5>{doctor?.doctorInfo?.specialization}</h5>
-            <p>{doctor?.profile?.address}</p>
+            <h6>{doctor?.profile?.address}</h6>
           </div>
         </div>
 
@@ -112,23 +79,7 @@ function ViewDocProfile() {
             )}
           </section>
         </div>
-
-        {/* Modal */}
-        {showModal && (
-          <div className="modal-overlay" onClick={() => setShowModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h3>Profile Image </h3>
-              <div className="modal-buttons">
-                <button onClick={handleProfileDelete} className="delete-btn">Delete Profile</button>
-                <label htmlFor="update-profile" className="update-btn">Update Profile</label>
-                <input type="file" id="update-profile" style={{ display: "none" }}onChange={handleProfileUpdate}
-                />
-              </div>
-              <button className="close-btn" onClick={() => setShowModal(false)}>Close</button>
-            </div>
-          </div>
-        )}
-      </div>
+      </div> 
     </>
   );
 }

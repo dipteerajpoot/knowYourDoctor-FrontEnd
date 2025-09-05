@@ -13,9 +13,13 @@ const connect = {
      pat_signUp: BASE_URL + "/patient/signUp",
      pat_signIn: BASE_URL + "/patient/signIn",
      pt_signOut: BASE_URL + "/patient/signOut",
-
+     pt_Profile: BASE_URL +"/patient/fethcProfile",
+     pt_updateProfile : BASE_URL + '/patient/updateProfile',
      take_aptmt: BASE_URL + "/aptmt/create",
      
+     fetch_post: BASE_URL + "/post/getposts"
+
+
 
 }
 export default connect;

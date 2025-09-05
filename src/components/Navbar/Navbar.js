@@ -12,7 +12,10 @@ function Navbar() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
-
+function getUser(){
+  return JSON.parse(sessionStorage.getItem("current-user"));
+}
+const user = getUser();
 const location = useLocation();
   useEffect(() => {
     if (location.pathname === "/find") {
@@ -51,7 +54,6 @@ return (
 
     {/* Center: Search (only if logged in) */}
     {isUserExit() && (
-
       <div className="search-content">
         <form onSubmit={handleSearch}>
           <div className="search-box">
@@ -82,7 +84,11 @@ return (
 
           {open && (
             <div className="dropdown-menu">
-              <Link to="/mngProfile">Manage Profile</Link>
+              {user?.role === "doctor" ? (
+                  <Link to="/docProfile">Manage Profile</Link>
+                ) : (
+                  <Link to="/patientProfile">Manage Profile</Link>
+                )}
               <Link to="/signOut">Sign-Out</Link>
             </div>
           )}
