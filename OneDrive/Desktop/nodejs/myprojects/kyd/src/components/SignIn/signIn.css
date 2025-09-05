@@ -1,0 +1,137 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.signin-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.signin-box {
+  position: relative;
+  background-color: white;
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 10px  30px rgba(5, 23, 61, 0.15); 
+  width: 100%;
+  max-width: 500px;
+}
+
+.back-arrow {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.back-arrow .bi {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e1eff7;
+  color: #1B3B7D;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.back-button .bi:hover {
+  background-color: #1B3B7D;
+  color: white;
+  transform: scale(1.05);
+}
+
+.signin-title {
+  text-align: center;
+  color: #1B3B7D;
+  font-size: 26px;
+  margin: 20px 0 30px;
+}
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signin-form label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #111010;
+}
+.signin-form select,
+.signin-form input {
+  padding: 8px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.signin-form select,
+.signin-form input:hover {
+  border-color: #1B3B7D;
+  box-shadow: 0 0 5px rgba(27, 59, 125, 0.15);
+}
+
+.signin-form input:focus {
+  border-color: #1B3B7D;
+  box-shadow: 0 0 6px rgba(27, 59, 125, 0.2);
+}
+
+/* Submit button */
+.signin-button {
+  background-color: #1B3B7D;
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signin-button:hover {
+  background-color: #163066;
+}
+.signin-button:active {
+  transform: scale(0.97); 
+}
+/* Footer text */
+.signin-footer {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.signin-footer a {
+  color: #1B3B7D;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signin-footer a:hover {
+  text-decoration: underline;
+}
+
+  .error{
+    color:rgb(143, 11, 11)
+  }
+
+  .spinner-position{
+    position: fixed;
+    top: 50%;
+    left:50%;
+    color:rgb(71, 71, 197);
+  }

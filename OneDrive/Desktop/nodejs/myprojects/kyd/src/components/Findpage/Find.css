@@ -1,0 +1,96 @@
+/* Card container */
+*{
+  margin: 0;
+  padding: 0;
+}
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+  gap: 45px;
+}
+
+.doctor-card {
+  display: flex;
+  align-items: flex-start;
+  gap:10px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  /* width: 380px; */
+}
+
+/* Image styling */
+.doctor-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Doctor info section */
+.doctor-info h3 {
+  font-size: 16px;
+  color: #1B3B7D;
+  margin-bottom: 5px;
+}
+
+.doctor-info p {
+  font-size: 14px;
+  color: #555;
+  margin: 2px 0;
+}
+
+/* Button container */
+.doctor-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Buttons */
+.btn-view {
+  background-color: white;
+  border: 1px solid #1B3B7D;
+  color: #1B3B7D;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-appointment {
+  background-color: #1B3B7D;
+  border: none;
+  color: white;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-view:hover {
+  background-color: #f1f1f1;
+  text-decoration: none;
+}
+
+.btn-appointment:hover {
+  background-color: #16325d;
+    text-decoration: none;
+}
+
+.btn-view:active,
+.btn-appointment:active {
+  transform: scale(0.95); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.doctor-card:hover {
+  transform: translateY(-4px); 
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); 
+}
