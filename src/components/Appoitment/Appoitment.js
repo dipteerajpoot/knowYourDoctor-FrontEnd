@@ -62,18 +62,14 @@ function Appointment() {
             setLoading(false);
         }
     };
+    const chageTimeto12hour = (time) => {
+        if (!time) return "";
+        let [hours, minutes] = time.split(":").map(Number);
+        let ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12 || 12; // 0 ko 12 bana do
+        return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+    }
 
-    // ✅ safe time formatting
-    const formatTime24to12 = (timeStr) => {
-        if (!timeStr || typeof timeStr !== "string" || !timeStr.includes(":")) {
-            return "N/A";  // avoid NaN
-        }
-        const [h, m] = timeStr.split(":").map(Number);
-        if (isNaN(h) || isNaN(m)) return "N/A";
-        const suffix = h >= 12 ? "PM" : "AM";
-        const hour = ((h + 11) % 12) + 1;
-        return `${hour}:${m.toString().padStart(2, "0")} ${suffix}`;
-    };
 
     return (
         <>
@@ -98,7 +94,7 @@ function Appointment() {
                                 <input name="name" value={appointment.name} onChange={handleChange} type="text" placeholder="Your Name" required />
                                 <input name="email" value={appointment.email} onChange={handleChange} type="email" placeholder="Your Email" required />
                                 <input name="mobile" value={appointment.mobile} onChange={handleChange} type="tel" placeholder="Mobile no." required />
-                                <input name="apmtDate" value={appointment.apmtDate} onChange={handleChange} type="date" required />
+                                <input name="apmtDate" value={appointment.apmtDate} onChange={handleChange} type="date" required  min={new Date().toISOString().split("T")[0]}/>
                                 <input name="apmtTime" value={appointment.apmtTime} onChange={handleChange} type="time" required />
                                 <input name="apmtDay" value={appointment.apmtDay} onChange={handleChange} type="text" placeholder="Appointment Day" required />
                                 <textarea
@@ -122,18 +118,11 @@ function Appointment() {
                             <div className="doctor-info">
                                 <h3>{dname}</h3>
                                 <h6>Specialist: {specialization}</h6>
-                                <h6>Availability:</h6>
-                                {availability && availability.length > 0 ? (
-                                    <ul>
-                                        {availability.map((slot, index) => (
-                                            <li key={index}>
-                                                {slot.day}: {formatTime24to12(slot.from)} - {formatTime24to12(slot.to)}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <p>No availability added</p>
-                                )}
+                                <p>
+                                    Availability : {availability?.map((slot, idx) => (
+                                        <span key={idx}>{chageTimeto12hour(slot.from)} - {chageTimeto12hour(slot.to)}{idx !== availability.length - 1 ? ", " : ""}</span>
+                                    ))}
+                                </p>
                             </div>
                         </div>
                     </div>

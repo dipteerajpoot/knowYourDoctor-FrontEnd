@@ -1,4 +1,4 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./ViewDocProfile.css";
 import axios from "axios";
 import EndPoint from "../../apis/EndPoint";
@@ -21,6 +21,15 @@ function ViewDocProfile() {
   useEffect(() => {
     loadDoctors();
   }, []);
+
+      const chageTimeto12hour = (time) => {
+        if (!time) return "";
+        let [hours, minutes] = time.split(":").map(Number);
+        let ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12 || 12; // 0 ko 12 bana do
+        return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+    }
+
   return (
     <>
       <Navbar />
@@ -51,7 +60,9 @@ function ViewDocProfile() {
               <p><strong>Bio:</strong> {doctor?.profile?.bio}</p>
             </div>
             <div><p><strong>Experience:</strong> {doctor?.doctorInfo?.experience}</p></div>
-            <div><p><strong>Availability:</strong> {doctor?.availability}</p></div>
+            <p><strong>Availability:</strong>{" "}{doctor?.doctorInfo?.availability?.map((slot, idx) => (
+              <span key={idx}>{chageTimeto12hour(slot.from)} - {chageTimeto12hour(slot.to)}{idx !== doctor.doctorInfo.availability.length - 1 ? ", " : ""}</span>))}
+            </p>            
             <p><strong>Address:</strong> {doctor?.profile?.address}</p>
           </section>
 
@@ -79,7 +90,7 @@ function ViewDocProfile() {
             )}
           </section>
         </div>
-      </div> 
+      </div>
     </>
   );
 }
