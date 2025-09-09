@@ -10,16 +10,32 @@ function ViewDocProfile() {
     const [isEditing, setIsEditing] = useState(false);
     const [showForm, setshowForm] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [active, setActive] = useState("certificate");
+    const [post, setPost] = useState([]);
     const [formData, setFormData] = useState({
         name: "",
         specialization: "",
         bio: "",
         experience: "",
-        availability: [{ from: "00:00", to: "00:00" }],
+        availability: [{ date: "", from: "00:00", to: "00:00" }],
         address: "",
     });
-    const [active, setActive] = useState("certificate");
-    const [post, setPost] = useState([]);
+    const [showPostModal, setShowPostModal] = useState(false);
+    const [postForm, setPostForm] = useState({
+        title: "",
+        content: "",
+        postImage: null,
+        postVideo: null
+    });
+
+    const [showCertModal, setShowCertModal] = useState(false);
+    const [certForm, setCertForm] = useState({
+        name: "",
+        description: "",
+        date: "",
+        certificate: null
+    });
+
     //cancel button 
     const resetForm = () => {
         setFormData({
@@ -30,7 +46,8 @@ function ViewDocProfile() {
             availability:
                 doctor?.doctorInfo?.availability?.length > 0
                     ? doctor.doctorInfo.availability
-                    : [{ from: "00:00", to: "00:00" }],
+                    : [{ date: "", from: "00:00", to: "00:00" }],
+
             address: doctor?.profile?.address || "",
         });
         setIsEditing(false);
@@ -60,7 +77,7 @@ function ViewDocProfile() {
                 availability:
                     doctor?.doctorInfo?.availability?.length > 0
                         ? doctor.doctorInfo.availability
-                        : [{ from: "00:00", to: "00:00" }],
+                        : [{ date: "", from: "00:00", to: "00:00" }],
                 address: doctor?.profile?.address || "",
             });
         }
@@ -168,6 +185,92 @@ function ViewDocProfile() {
         hours = hours % 12 || 12; // 0 ko 12 bana do
         return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
     }
+
+
+    const handlePostChange = (e) => {
+        const { name, value, files } = e.target;
+        // Check which input triggered the change
+        if (name === "postImage" && files.length > 0) {
+            setPostForm({ ...postForm, postImage: files[0] });
+        } else if (name === "postVideo" && files.length > 0) {
+            setPostForm({ ...postForm, postVideo: files[0] });
+        } else {
+            setPostForm({ ...postForm, [name]: value });
+        }
+    };
+
+    const handlePostSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append("title", postForm.title);
+            formData.append("content", postForm.content);
+            if (postForm.postImage) {
+                formData.append("postImage", postForm.postImage);
+            }
+            if (postForm.postVideo) {
+                formData.append("postVideo", postForm.postVideo);
+            }
+            const response = await axios.post(`${EndPoint.add_post}`, formData, { withCredentials: true });
+            toast.success(response.data.message||"Post added successfully!");
+            setShowPostModal(false);
+            loadPost(); 
+            setPostForm({ title: "", content: "", postImage: null, postVideo: null }); 
+        } catch (err) {
+            console.log(err);
+            toast.error("Failed to add post!");
+        }
+    };
+
+    const handleCertSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append("name", certForm.name);
+            formData.append("description", certForm.description);
+            formData.append("date", certForm.date);
+            formData.append("certificate", certForm.certificate);
+            const response = await axios.post(`${EndPoint.add_certificate}`, formData, { withCredentials: true });
+            toast.success(response.data.message||"Certificate added successfully!");
+            setShowCertModal(false);
+            loadDoctors();
+        } catch (err) {
+            console.log(err);
+            toast.error("Failed to add certificate!");
+        }
+    };
+
+    const handleCertChange = (e) => {
+        const { name, value, files } = e.target;
+        if (name === "certificate") {
+            setCertForm({ ...certForm, certificate: files[0] });
+        } else {
+            setCertForm({ ...certForm, [name]: value });
+        }
+    };
+
+
+    const handlePostDelete = async () => {
+        try {
+            toast.info("Delete Post functionality coming soon!");
+            // Example: call API to delete post
+        } catch (error) {
+            console.log("Error deleting post:", error);
+            toast.error("Failed to delete post");
+        }
+    };
+
+    // Delete Certificate
+    const handleCertificateDelete = async () => {
+        try {
+            toast.info("Delete Certificate functionality coming soon!");
+            // Example: call API to delete certificate
+        } catch (error) {
+            console.log("Error deleting certificate:", error);
+            toast.error("Failed to delete certificate");
+        }
+    };
+
     return (
         <>
             <ToastContainer />
@@ -222,6 +325,7 @@ function ViewDocProfile() {
                                         <label>Availability</label><br />
                                         {formData.availability.map((slot, idx) => (
                                             <div key={idx} className="d-flex mb-1 align-item-center">
+                                                <input className="mr-2" type="date" name="date" value={slot.date} onChange={(e) => handleAvailability(e, idx)} style={{ width: "150px" }} min={new Date().toISOString().split("T")[0]} />
                                                 <input type="time" name="from" value={slot.from} onChange={(e) => handleAvailability(e, idx)} style={{ width: "150px" }} />
                                                 <span className="mx-2">to</span>
                                                 <input type="time" name="to" value={slot.to} onChange={(e) => handleAvailability(e, idx)} style={{ width: "150px" }}
@@ -250,9 +354,18 @@ function ViewDocProfile() {
                                 <p><strong>Specialization:</strong> {doctor?.doctorInfo?.specialization}</p>
                                 <p><strong>Bio:</strong> {doctor?.profile?.bio}</p>
                                 <p><strong>Experience:</strong> {doctor?.doctorInfo?.experience}</p>
-                                <p><strong>Availability:</strong> {doctor?.doctorInfo?.availability?.map((slot, idx) => (
-                                    <span key={idx}>{chageTimeto12hour(slot.from)} - {chageTimeto12hour(slot.to)}{idx !== doctor.doctorInfo.availability.length - 1 ? ", " : ""}</span>
-                                ))}</p>
+                                <div>
+                                    <strong>Availability:</strong>
+                                    <div style={{ marginLeft: "10px" }}>
+                                        {doctor?.doctorInfo?.availability?.map((slot, idx) => (
+                                            <div key={idx}>
+                                                {slot.date ? new Date(slot.date).toLocaleDateString() : "No Date"} -{" "}
+                                                {chageTimeto12hour(slot.from)} - {chageTimeto12hour(slot.to)}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
                                 <p><strong>Address:</strong> {doctor?.profile?.address}</p>
                                 <button
                                     style={{ marginLeft: "80%", backgroundColor: "#1B3B7D", color: "white" }}
@@ -273,6 +386,10 @@ function ViewDocProfile() {
                         </div>
                         {active === "certificate" && (
                             <div>
+                                <div>
+                                    <button className="btn" onClick={() => setShowCertModal(true)}><strong><i className="bi bi-award me-1"style={{color:"green", fontSize:"20px",}} title="Add Certificate"></i></strong></button>              
+                                    <button className="btn "><i class="bi bi-trash" style={{ color: "black", fontSize: "19px" }} onClick={handleCertificateDelete} title="Delete Certificate"></i></button>
+                                </div>
                                 {doctor?.doctorInfo?.certificates?.length > 0 ? (
                                     doctor.doctorInfo.certificates.map((certi, index) => (
                                         <div key={index} className="container my-2">
@@ -293,6 +410,10 @@ function ViewDocProfile() {
                         )}
                         {active === "post" && (
                             <div>
+                                <div>
+                                    <button className="btn ad-post" onClick={() => setShowPostModal(true)}><i className="bi bi-pencil-square me-1" title="Add Post" style={{color:"green", fontSize:"20px",}}></i></button>
+                                    <button className="btn dlt-post" ><i class="bi bi-trash" title="Delete Post" style={{ color: "black", fontSize: "19px", border: "none" }} onClick={handlePostDelete}></i></button>
+                                </div>
                                 {post.length > 0 ? (
                                     post.map((post, idx) => (
                                         <div key={idx} className="container my-2 post-card">
@@ -332,6 +453,60 @@ function ViewDocProfile() {
                     </div>
                 </div>
             )}
+            {showCertModal && (
+                <div className="modal-overlay" onClick={() => setShowCertModal(false)}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <h3>Add Certificate</h3>
+                        <form onSubmit={handleCertSubmit}>
+                            <input type="text" name="name" placeholder="Certificate Name" value={certForm.name} onChange={handleCertChange} required />
+                            <textarea name="description" placeholder="Description" value={certForm.description} onChange={handleCertChange} required />
+                            <input type="file" name="certificate" onChange={handleCertChange} required />
+                            <div className="modal-buttons">
+                                <button type="submit" className="btn btn-success">Add</button>
+                                <button type="button" className="btn btn-secondary" onClick={() => setShowCertModal(false)}>Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            {showPostModal && (
+                <div className="modal-overlay" onClick={() => setShowPostModal(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <h3>Add Post</h3>
+                        <form onSubmit={handlePostSubmit}>
+                            <input
+                                type="text"
+                                name="title"
+                                placeholder="Post Title"
+                                value={postForm.title}
+                                onChange={handlePostChange}
+                                required
+                            />
+                            <textarea
+                                name="content"
+                                placeholder="Content"
+                                value={postForm.content}
+                                onChange={handlePostChange}
+                                required
+                            />
+                            <div className="mb-2">
+                                <label>Upload Image:</label>
+                                <input type="file" name="postImage" onChange={handlePostChange} accept="image/*" />
+                            </div>
+                            <div className="mb-2">
+                                <label>Upload Video:</label>
+                                <input type="file" name="postVideo" onChange={handlePostChange} accept="video/*" />
+                            </div>
+                            <div className="modal-buttons">
+                                <button type="submit" className="btn btn-success">Add</button>
+                                <button type="button" className="btn btn-secondary" onClick={() => setShowPostModal(false)}>Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+
         </>
     );
 }

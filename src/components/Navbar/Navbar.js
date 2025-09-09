@@ -12,6 +12,17 @@ function Navbar() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
+  const [deleteMode, setDeleteMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
+
+   const toggleSelect = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((cid) => cid !== id) : [...prev, id]
+    );
+  };
+
+
+
 function getUser(){
   return JSON.parse(sessionStorage.getItem("current-user"));
 }
@@ -62,26 +73,21 @@ return (
           </div>
         </form>
       </div>
-    )}
+    )}  
 
     <div className="nav-actions">
       <Link to="/about">About</Link>
       {isUserExit() && (
         <Link to="/appointment">
-          <i className="bi bi-bookmark-plus-fill"></i>
+          <i className="bi bi-bookmark-plus-fill" onClick={() => {"/watchAptmt"}}  style={{ cursor: "pointer" }} title="Appointment"></i>
         </Link>
       )}
 
       {isUserExit() && (
         <div
           className={`profile-dropdown ${open ? "active" : ""}`}
-          ref={dropdownRef}
-        >
-          <i
-            className="bi bi-person-circle profile"
-            onClick={() => setOpen(!open)}
-          ></i>
-
+          ref={dropdownRef}>
+          <i className="bi bi-person-circle profile" onClick={() => setOpen(!open)} title="Profile"></i>
           {open && (
             <div className="dropdown-menu">
               {user?.role === "doctor" ? (

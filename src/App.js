@@ -11,6 +11,7 @@ import ViewDocProfile from "./components/ViewDocProfile/ViewDocProfile";
 import { Navigate } from "react-router-dom";
 import DocManage from "./components/manageProfile/DocManage";
 import PatientManage from "./components/manageProfile/PatientManage";
+// import WatchAptmt from "./components/watchAptmt/WatchAptmt";
 function App() {
          const isVarified = sessionStorage.getItem("current-user");
   return <>
@@ -27,6 +28,7 @@ function App() {
       <Route path="/viewDocProfile" element={<Auth><ViewDocProfile/></Auth>}/>
       <Route path="/docProfile" element={< DocManage/>} />
       <Route path="/patientProfile" element={<PatientManage/>}/>
+      {/* <Route path="/watchAptmt" element={<WatchAptmt/>}/> */}
     </Routes>
   </>
 }

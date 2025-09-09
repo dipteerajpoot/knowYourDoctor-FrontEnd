@@ -5,6 +5,7 @@ import EndPoint from "../../apis/EndPoint";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/footer";
 import "./Find.css";
+import { ToastContainer,toast } from "react-toastify";
 
 function Find() {
   const [doctors, setDoctors] = useState([]);
@@ -37,6 +38,7 @@ function Find() {
   return (
     <>
       <Navbar />
+      <ToastContainer/>
       {isLoading && <div className="spinner-border spinner-position"></div>}
 
       <div className="container mt-5 pt-4">
