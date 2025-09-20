@@ -21,7 +21,12 @@ const connect = {
      
      fetch_post: BASE_URL + "/post/getposts",
      fetchPost_Id:BASE_URL+"/post/get/",
+      
+     viewAllAptmt :BASE_URL+"/aptmt/viewAll",
+     confirm_aptmt:BASE_URL+"/aptmt/confirm/",
+     cancel_aptmt:BASE_URL+"/aptmt/cancel/",
+     complete_aptmt:BASE_URL+"/aptmt/complete/",
+     updateAptmt:BASE_URL+"/aptmt/update/",
      
-
 }
 export default connect;

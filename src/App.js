@@ -11,11 +11,15 @@ import ViewDocProfile from "./components/ViewDocProfile/ViewDocProfile";
 import { Navigate } from "react-router-dom";
 import DocManage from "./components/manageProfile/DocManage";
 import PatientManage from "./components/manageProfile/PatientManage";
-// import WatchAptmt from "./components/watchAptmt/WatchAptmt";
+import AppointmentPage from "./components/ShowAptmt/docShowAptmt"
+import PatientAppointment from "./components/ShowAptmt/PatientShowAptmt";
 function App() {
          const isVarified = sessionStorage.getItem("current-user");
   return <>
+
+    {/* <AppointmentPage/> */}
     <Routes>
+
       <Route path="/" element={isVarified ? <Navigate to="/find" /> : <Navigate to="/home" />} />
       <Route path="/" element={<Home/>} />
       <Route path="/home" element={<Home />} />
@@ -28,7 +32,8 @@ function App() {
       <Route path="/viewDocProfile" element={<Auth><ViewDocProfile/></Auth>}/>
       <Route path="/docProfile" element={< DocManage/>} />
       <Route path="/patientProfile" element={<PatientManage/>}/>
-      {/* <Route path="/watchAptmt" element={<WatchAptmt/>}/> */}
+      <Route path="/AppointmentPage" element={<AppointmentPage/>} />
+      <Route path="/PatientAppointment" element={<PatientAppointment/>}/>
     </Routes>
   </>
 }

@@ -15,7 +15,7 @@ function Navbar() {
   const [deleteMode, setDeleteMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
 
-   const toggleSelect = (id) => {
+  const toggleSelect = (id) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((cid) => cid !== id) : [...prev, id]
     );
@@ -23,11 +23,11 @@ function Navbar() {
 
 
 
-function getUser(){
-  return JSON.parse(sessionStorage.getItem("current-user"));
-}
-const user = getUser();
-const location = useLocation();
+  function getUser() {
+    return JSON.parse(sessionStorage.getItem("current-user"));
+  }
+  const user = getUser();
+  const location = useLocation();
   useEffect(() => {
     if (location.pathname === "/find") {
       const delayDebounce = setTimeout(() => {
@@ -39,73 +39,77 @@ const location = useLocation();
   }, [search, navigate, location.pathname]);
 
 
-const handleSearch = async (e) => {
-  e.preventDefault();
-  if (search.trim()) {
-    navigate("/find", { state: { search } })
-  } else {
-    navigate("/find", { state: { search: "" } });
-  }
-}
-useEffect(() => {
-  function handleClickOutside(e) {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-      setOpen(false);
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (search.trim()) {
+      navigate("/find", { state: { search } })
+    } else {
+      navigate("/find", { state: { search: "" } });
     }
   }
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => document.removeEventListener("mousedown", handleClickOutside);
-}, []);
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-return (
-  <nav className="navbar">
-    <div className="logo">
-      <img src="../assets/logo2.png" alt="Logo" />
-    </div>
-
-    {/* Center: Search (only if logged in) */}
-    {isUserExit() && (
-      <div className="search-content">
-        <form onSubmit={handleSearch}>
-          <div className="search-box">
-            <Link ><i className="bi bi-search"></i></Link>
-            <input name="search" type="text" placeholder="Search Here..." value={search} onChange={(e) => setSearch(e.target.value)} />
-          </div>
-        </form>
+  return (
+    <nav className="navbar">
+      <div className="logo">
+        <img src="../assets/logo2.png" alt="Logo" />
       </div>
-    )}  
 
-    <div className="nav-actions">
-      <Link to="/about">About</Link>
+      {/* Center: Search (only if logged in) */}
       {isUserExit() && (
-        <Link to="/appointment">
-          <i className="bi bi-bookmark-plus-fill" onClick={() => {"/watchAptmt"}}  style={{ cursor: "pointer" }} title="Appointment"></i>
-        </Link>
+        <div className="search-content">
+          <form onSubmit={handleSearch}>
+            <div className="search-box">
+              <Link ><i className="bi bi-search"></i></Link>
+              <input name="search" type="text" placeholder="Search Here..." value={search} onChange={(e) => setSearch(e.target.value)} />
+            </div>
+          </form>
+        </div>
       )}
 
-      {isUserExit() && (
-        <div
-          className={`profile-dropdown ${open ? "active" : ""}`}
-          ref={dropdownRef}>
-          <i className="bi bi-person-circle profile" onClick={() => setOpen(!open)} title="Profile"></i>
-          {open && (
-            <div className="dropdown-menu">
-              {user?.role === "doctor" ? (
+      <div className="nav-actions">
+        <Link to="/about">About</Link>
+        {isUserExit() && user?.role && (
+          <Link to={user.role === "patient" ? "/PatientAppointment" : "/AppointmentPage"}>
+            <i
+              className="bi bi-bookmark-plus-fill"
+              style={{ cursor: "pointer" }}
+              title="Appointment"
+            ></i>
+          </Link>
+        )}
+
+        {isUserExit() && (
+          <div
+            className={`profile-dropdown ${open ? "active" : ""}`}
+            ref={dropdownRef}>
+            <i className="bi bi-person-circle profile" onClick={() => setOpen(!open)} title="Profile"></i>
+            {open && (
+              <div className="dropdown-menu">
+                {user?.role === "doctor" ? (
                   <Link to="/docProfile">Manage Profile</Link>
                 ) : (
                   <Link to="/patientProfile">Manage Profile</Link>
                 )}
-              <Link to="/signOut">Sign-Out</Link>
-            </div>
-          )}
-        </div>
-      )}
+                <Link to="/signOut">Sign-Out</Link>
+              </div>
+            )}
+          </div>
+        )}
 
-      {!isUserExit() && <Link to="/Signup">SignUp</Link>}
-      {!isUserExit() && <Link to="/Signin">SignIn</Link>}
-    </div>
-  </nav>
-);
+        {!isUserExit() && <Link to="/Signup">SignUp</Link>}
+        {!isUserExit() && <Link to="/Signin">SignIn</Link>}
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;

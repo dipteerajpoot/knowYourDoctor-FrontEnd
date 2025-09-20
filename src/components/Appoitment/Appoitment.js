@@ -5,7 +5,6 @@ import axios from "axios";
 import EndPoint from "../../apis/EndPoint";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-
 function Appointment() {
     const navigate = useNavigate();
     const location = useLocation();
