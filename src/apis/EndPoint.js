@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:3000"
+export const BASE_URL = "https://knowyourdoctor.onrender.com"
 const connect = {
      doc_List: BASE_URL + "/doctor/doctorList",
 
