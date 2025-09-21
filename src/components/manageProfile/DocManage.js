@@ -388,7 +388,7 @@ function ViewDocProfile() {
                             <div>
                                 <div>
                                     <button className="btn" onClick={() => setShowCertModal(true)}><strong><i className="bi bi-award me-1"style={{color:"green", fontSize:"20px",}} title="Add Certificate"></i></strong></button>              
-                                    <button className="btn "><i class="bi bi-trash" style={{ color: "black", fontSize: "19px" }} onClick={handleCertificateDelete} title="Delete Certificate"></i></button>
+                                    <button className="btn "><i className="bi bi-trash" style={{ color: "black", fontSize: "19px" }} onClick={handleCertificateDelete} title="Delete Certificate"></i></button>
                                 </div>
                                 {doctor?.doctorInfo?.certificates?.length > 0 ? (
                                     doctor.doctorInfo.certificates.map((certi, index) => (
