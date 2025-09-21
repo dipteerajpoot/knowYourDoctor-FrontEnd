@@ -1,4 +1,7 @@
-export const BASE_URL = "https://knowyourdoctor.onrender.com"
+export const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://knowyourdoctor.onrender.com"
+    : "http://localhost:3000";
 const connect = {
      doc_List: BASE_URL + "/doctor/doctorList",
 
